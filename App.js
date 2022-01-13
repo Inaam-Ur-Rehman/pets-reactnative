@@ -5,6 +5,7 @@ import Home from "./screens/Home";
 import Pets from "./screens/Pets";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AddPet from "./screens/AddPet";
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Pets" component={Pets} />
+          <Stack.Screen name="AddPet" component={AddPet} />
 
         </Stack.Navigator>
       </NavigationContainer>

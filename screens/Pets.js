@@ -1,24 +1,44 @@
-import {View, Text, ActivityIndicator,StyleSheet,Image, RefreshControl} from "react-native";
-import {useEffect,useState} from "react";
+import {View, Text, ActivityIndicator, StyleSheet, Image, RefreshControl, Button} from "react-native";
+import {useEffect, useLayoutEffect, useState} from "react";
 import styled from "styled-components";
 const axios = require("axios");
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const Pets = ()=>{
+const Pets = ({navigation})=>{
     const [pets,setPets] = useState([]);
     const [loading,setLoading] = useState(true);
     useEffect(()=>{
         const fetch = async () => {
-            const response = await axios.get("http://192.168.106.97:8000/read");
-            setLoading(false)
-            setPets(response.data);
+           try{
+               const response = await axios.get("https://protected-falls-05965.herokuapp.com/read");
+               setLoading(false)
+               setPets(response.data);
+           }
+           catch(error){
+               console.log(error);
+           }
         }
         fetch()
     },[]);
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerRight: () => (
+                <AddPet onPress={()=>navigation.navigate("AddPet")}>
+                    <MaterialIcons name="add" color="white" size={20}/>
+                    <Text style={{color:"white"}}>Add Pet</Text>
+                </AddPet>
+            ),
+        });
+    },[])
     const fetch = async () => {
-        const response = await axios.get("http://192.168.106.97:8000/read");
-        setLoading(false)
-        setPets(response.data);
+        try{
+            const response = await axios.get("https://protected-falls-05965.herokuapp.com/read");
+            setLoading(false)
+            setPets(response.data);
+        }
+        catch(error){
+            console.log(error);
+        }
     }
     return(
         <Container
@@ -105,6 +125,19 @@ const PetButton = styled.TouchableOpacity`
     width:30%;
     height:auto;
   padding: 2px 5px;
+    border-radius:10px;
+    background-color: #00bfff;
+    align-items:center;
+    justify-content:center;
+    margin-top:10px;
+    margin-bottom:10px;
+  `
+const AddPet = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+    width:auto;
+    height:auto;
+    padding: 5px 8px;
     border-radius:10px;
     background-color: #00bfff;
     align-items:center;
